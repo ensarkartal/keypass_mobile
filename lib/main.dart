@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
-void main() => runApp(const MyApp());
+import 'app/global.dart';
+import 'app/lang/translation_service.dart';
+import 'app/routes/app_pages.dart';
+
+Future<void> main() async {
+  await Global.init();
+  runApp(MyApp());
+}
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -14,14 +23,13 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       title: 'Material App',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Material App Bar'),
-        ),
-        body: const Center(
-          child: TextField()
-        ),
-      ),
+      debugShowCheckedModeBanner: false,
+      initialRoute: AppPages.INITIAL,
+      getPages: AppPages.routes,
+      builder: EasyLoading.init(),
+      translations: TranslationService(),
+      fallbackLocale: Locale('en', 'US'),
+      locale: Get.deviceLocale,
     );
   }
 }
